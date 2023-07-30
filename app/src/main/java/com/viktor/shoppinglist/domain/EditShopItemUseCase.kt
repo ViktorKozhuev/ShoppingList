@@ -2,8 +2,8 @@ package com.viktor.shoppinglist.domain
 
 class EditShopItemUseCase(private val shopListRepository: ShopListRepository) {
 
-    fun editShopItem(shopItemId:Int) {
-        shopListRepository.editShopItem(shopItemId)
+    fun editShopItem(shopItem: ShopItem) {
+        shopListRepository.editShopItem(shopItem)
     }
 
 }
