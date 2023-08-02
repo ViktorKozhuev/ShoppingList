@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.viktor.shoppinglist.R
 import com.viktor.shoppinglist.domain.ShopItem
@@ -19,12 +20,16 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(
         const val MAX_POOL_SIZE = 15
     }
 
-    var count = 0
     var shopList = listOf<ShopItem>()
         set(value) {
+            val callback = ShopListDiffCallBack(shopList, value)
+            val diffResult = DiffUtil.calculateDiff(callback)
+            diffResult.dispatchUpdatesTo(this)
             field = value
-            notifyDataSetChanged()
         }
+
+    var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
+    var onShopItemClickListener: ((ShopItem) -> Unit)? = null
 
     class ShopItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val tvName = view.findViewById<TextView>(R.id.tv_name)
@@ -33,7 +38,6 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder {
-        Log.d("ShopListAdapter", "onCreateViewHolder ${++count}")
         val layoutResId: Int = if (viewType == VIEW_TYPE_ENABLED) {
             R.layout.item_shop_enabled
         } else {
@@ -51,7 +55,13 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(
         val shopItem = shopList[position]
         viewHolder.tvName.text = shopItem.name
         viewHolder.tvCount.text = shopItem.count.toString()
-        viewHolder.itemView.setOnLongClickListener { true }
+        viewHolder.itemView.setOnLongClickListener {
+            onShopItemLongClickListener?.invoke(shopItem)
+            true
+        }
+        viewHolder.itemView.setOnClickListener{
+            onShopItemClickListener?.invoke(shopItem)
+        }
     }
 
     override fun onViewRecycled(viewHolder: ShopItemViewHolder) {
@@ -68,5 +78,9 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(
         } else {
             VIEW_TYPE_DISABLED
         }
+    }
+
+    interface OnShopItemLongClickListener{
+        fun onShopItemLongClick(shopItem: ShopItem)
     }
 }
