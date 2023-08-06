@@ -63,9 +63,9 @@ class ShopItemViewModel : ViewModel() {
         }
     }
 
-    fun editShopItem(shopItem: ShopItem) {
-        editShopItemUseCase.editShopItem(shopItem)
-    }
+//    fun editShopItem(shopItem: ShopItem) {
+//        editShopItemUseCase.editShopItem(shopItem)
+//    }
 
     private fun parseName(inputName: String?) : String {
         return inputName?.trim() ?: ""
