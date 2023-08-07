@@ -159,19 +159,6 @@ class ShopItemFragment: Fragment() {
         private const val MODE_ADD = "mode_add"
         private const val MODE_UNKNOWN = ""
 
-        fun newIntentAddItem(context: Context): Intent {
-            val intent = Intent(context, ShopItemActivity::class.java)
-            intent.putExtra(SCREEN_MODE, MODE_ADD)
-            return intent
-        }
-
-        fun newIntentEditItem(context: Context, shopItemId: Int): Intent {
-            val intent = Intent(context, ShopItemActivity::class.java)
-            intent.putExtra(SCREEN_MODE, MODE_EDIT)
-            intent.putExtra(SHOP_ITEM_ID, shopItemId)
-            return intent
-        }
-
         fun newInstanceAddItem(): ShopItemFragment {
             val args = Bundle().apply {
                 putString(SCREEN_MODE, MODE_ADD)
