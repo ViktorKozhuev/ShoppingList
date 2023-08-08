@@ -15,7 +15,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.viktor.shoppinglist.R
 import com.viktor.shoppinglist.domain.ShopItem
 
-class ShopItemActivity : AppCompatActivity() {
+class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private var screenMode = MODE_UNKNOWN
     private var shopItemId = ShopItem.UNDEFINED_OBJECT
@@ -27,7 +27,10 @@ class ShopItemActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             launchRightMode()
         }
+    }
 
+    override fun onEditingFinished() {
+        finish()
     }
 
     private fun launchRightMode() {

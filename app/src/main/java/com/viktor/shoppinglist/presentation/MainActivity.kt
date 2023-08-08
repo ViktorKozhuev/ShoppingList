@@ -3,6 +3,7 @@ package com.viktor.shoppinglist.presentation
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
@@ -14,7 +15,7 @@ import com.viktor.shoppinglist.R
 import com.viktor.shoppinglist.presentation.ShopItemActivity.Companion.newIntentAddItem
 import com.viktor.shoppinglist.presentation.ShopItemActivity.Companion.newIntentEditItem
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var shopListAdapter: ShopListAdapter
@@ -71,6 +72,11 @@ class MainActivity : AppCompatActivity() {
         setupLongClickListener()
         setupClickListener()
         setupSwipeListener(rvShopList)
+    }
+
+    override fun onEditingFinished() {
+        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+        supportFragmentManager.popBackStack()
     }
 
     private fun setupSwipeListener(rvShopList: RecyclerView?) {
